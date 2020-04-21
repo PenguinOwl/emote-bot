@@ -48,7 +48,9 @@ bot.message do |event|
             Discordrb::API::Server.add_emoji(bot.token, PROCESSING_SERVER, data_uri, "preview")
             sleep 1
             previews = event.channel.server.emoji.select{|i, e| e.name == "preview"}
-            event.channel.send_message(previews.values.first.to_s)
+            message = event.channel.send_message(previews.values.first.to_s)
+            message.react("✅")
+            message.react("❌")
             previews.keys.each do |e|
               Discordrb::API::Server.delete_emoji(bot.token, PROCESSING_SERVER, e)
             end
