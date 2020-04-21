@@ -61,7 +61,7 @@ bot.message do |event|
 end
 
 bot.reaction_add do |event|
-  if event.channel.name == "emote_submissions" && event.emoji == "⭐"
+  if event.channel.name == "emote_submissions" && event.emoji.to_s == "<:⭐:>"
     lock.synchronize do
       attachments = event.message.attachments
       if attachments.size == 1
@@ -70,9 +70,7 @@ bot.reaction_add do |event|
           filepath = download_file(image.url)
           # system "gm convert #{filepath} -resize 128x128^ -gravity center -extent 128x128  #{filepath}"
           system "gm convert #{filepath} -resize 128x128^ #{filepath}"
-          if event.user
-            event.user.send_file(File.open(filepath, "r"))
-          end
+          event.user.send_file(File.open(filepath, "r"))
           File.delete(filepath)
         end
       end
