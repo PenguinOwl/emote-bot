@@ -45,12 +45,12 @@ bot.message do |event|
             event.channel.send_message("File too beeg! #{File.size(filepath) / 2560}% of the maximum file size!")
           else
             data_uri = "data:image/#{encode_type};base64," + Base64.encode64(File.open(filepath, "r").read).to_s
-            Discordrb::API::Server.add_emoji(bot.token, event.channel.server.id, data_uri, "preview")
+            Discordrb::API::Server.add_emoji(bot.token, PROCESSING_SERVER, data_uri, "preview")
             sleep 1
             previews = event.channel.server.emoji.select{|i, e| e.name == "preview"}
             event.channel.send_message(previews.values.first.to_s)
             previews.keys.each do |e|
-              Discordrb::API::Server.delete_emoji(bot.token, event.channel.server.id, e)
+              Discordrb::API::Server.delete_emoji(bot.token, PROCESSING_SERVER, e)
             end
           end
           File.delete(filepath)
