@@ -42,7 +42,7 @@ bot.message do |event|
                           ""
                         end
           if File.size(filepath) > 256000
-            event.channel.send_message("File too beeg! #{File.size(filepath) / 2560}% of the maximum file size!")
+            event.channel.send_message("File too large for a preview! #{(File.size(filepath) / 256000.0).round(2)}x the maximum file size. (Limit is 256KB)")
           else
             data_uri = "data:image/#{encode_type};base64," + Base64.encode64(File.open(filepath, "r").read).to_s
             Discordrb::API::Server.add_emoji(bot.token, PROCESSING_SERVER, data_uri, "preview")
