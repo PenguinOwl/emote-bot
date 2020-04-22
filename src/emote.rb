@@ -30,7 +30,7 @@ bot.message do |event|
         lock.synchronize do
           filepath = download_file(image.url)
           # system "gm convert #{filepath} -resize 128x128^ -gravity center -extent 128x128  #{filepath}"
-          system "gm convert #{filepath} -resize 128x128^ #{filepath}"
+          system "gm convert #{filepath} -strip -resize 128x128^ #{filepath}"
           encode_type = case filepath.match(/\w$/)[0]
                         when "jpg", "jpeg"
                           "jpeg"
