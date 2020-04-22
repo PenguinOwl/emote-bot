@@ -71,7 +71,7 @@ bot.reaction_add do |event|
         if image.image?
           filepath = download_file(image.url)
           # system "gm convert #{filepath} -resize 128x128^ -gravity center -extent 128x128  #{filepath}"
-          system "gm convert #{filepath} -resize 128x128^ #{filepath}"
+          system "gm convert #{filepath} -strip -resize 128x128^ #{filepath}"
           event.user.send_file(File.open(filepath, "r"))
           File.delete(filepath)
         end
